@@ -15,11 +15,6 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
-
-//    public UserDTO getCurrentUser(Long id){
-//        return userRepository.getUserById(id);
-//    }
-
     public void userRegister(UserDTO userDTO){
         UserInfo userInfo = convertDTOtoEntity(userDTO);
         userInfoRepository.save(userInfo);
@@ -36,4 +31,14 @@ public class UserService {
         return userInfo;
     }
 
+    private UserDTO convertEntitytoDTO(UserInfo user){
+        UserDTO userDTO = new UserDTO();
+
+        userDTO.setEmail(user.getEmail());
+        userDTO.setName(user.getName());
+        userDTO.setPassword(encoder.encode(user.getPassword()));
+        userDTO.setCreatedAt(user.getCreatedAt());
+        userDTO.setUpdatedAt(user.getUpdatedAt());
+        return userDTO;
+    }
 }

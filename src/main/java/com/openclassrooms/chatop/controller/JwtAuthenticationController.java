@@ -12,11 +12,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class JwtAuthenticationController {
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JWTUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
+
+
 
     public JwtAuthenticationController(JwtUserDetailsService jwtUserDetailsService, JWTUtils jwtUtils, AuthenticationManager authenticationManager) {
         this.jwtUserDetailsService = jwtUserDetailsService;
@@ -25,11 +29,11 @@ public class JwtAuthenticationController {
     }
 
     @PostMapping(value = "/api/auth/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserDTO userDTO) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserDTO authentication) throws Exception {
 
-        authenticate(userDTO.getName(), userDTO.getPassword());
+        authenticate(authentication.getName(), authentication.getPassword());
 
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(userDTO.getName());
+        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authentication.getName());
 
         final String token = jwtUtils.generateToken(userDetails);
 

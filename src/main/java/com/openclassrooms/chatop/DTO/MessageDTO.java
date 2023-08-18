@@ -4,10 +4,11 @@ import java.util.Date;
 
 public class MessageDTO {
     private Long id;
+    private String message;
     private Long rentalId;
     private Long userId;
-    private Date createdAt;
-    private Date updatedAt;
+    private Date createdAt = new Date();
+    private Date updatedAt = new Date();
 
     public Long getId() {
         return id;
@@ -47,5 +48,13 @@ public class MessageDTO {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -6,10 +6,22 @@ import com.openclassrooms.chatop.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
+
+    public List<MessageDTO> getAll() {
+        List<MessageDTO> messageDTOs = new ArrayList<>();
+        List<Message> messages = messageRepository.findAll();
+        for (Message message : messages) {
+            messageDTOs.add(convertEntityToDTO(message));
+        }
+        return messageDTOs;
+    }
 
     public MessageDTO getOne(Long id) {
         Message message = messageRepository.getOne(id);
@@ -22,10 +34,11 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    private MessageDTO convertEntityToDTO(Message message){
+    private MessageDTO convertEntityToDTO(Message message) {
         MessageDTO messageDTO = new MessageDTO();
 
         messageDTO.setId(message.getId());
+        messageDTO.setMessage(message.getMessage());
         messageDTO.setRentalId(message.getRentalId());
         messageDTO.setUserId(message.getUserId());
         messageDTO.setCreatedAt(message.getCreatedAt());
@@ -33,10 +46,11 @@ public class MessageService {
         return messageDTO;
     }
 
-    private Message convertDTOToEntity(MessageDTO messageDTO){
+    private Message convertDTOToEntity(MessageDTO messageDTO) {
         Message message = new Message();
 
         message.setId(messageDTO.getId());
+        message.setMessage(messageDTO.getMessage());
         message.setRentalId(messageDTO.getRentalId());
         message.setUserId(messageDTO.getUserId());
         message.setCreatedAt(messageDTO.getCreatedAt());

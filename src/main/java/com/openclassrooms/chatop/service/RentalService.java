@@ -2,6 +2,7 @@ package com.openclassrooms.chatop.service;
 
 import com.openclassrooms.chatop.DTO.MessageDTO;
 import com.openclassrooms.chatop.DTO.RentalDTO;
+import com.openclassrooms.chatop.DTO.RentalsDTO;
 import com.openclassrooms.chatop.model.Message;
 import com.openclassrooms.chatop.model.Rental;
 import com.openclassrooms.chatop.repository.RentalRepository;
@@ -17,14 +18,16 @@ public class RentalService {
     @Autowired
     private RentalRepository rentalRepository;
 
-    public List<RentalDTO> find() {
+    public RentalsDTO find() {
         List<Rental> rentals = rentalRepository.findAll();
         List<RentalDTO> rentalDTOs = new ArrayList<RentalDTO>();
-        for(Rental rental : rentals){
+        for (Rental rental : rentals) {
             RentalDTO rentalDTO = convertEntityToDTO(rental);
             rentalDTOs.add(rentalDTO);
         }
-        return rentalDTOs;
+        RentalsDTO rentalDTO = new RentalsDTO();
+        rentalDTO.setRentals(rentalDTOs);
+        return rentalDTO;
     }
 
     public RentalDTO getOne(Long id) {
@@ -33,9 +36,11 @@ public class RentalService {
         return rentalDTO;
     }
 
-    public void create(RentalDTO rentalDTO) {
+    public RentalDTO create(RentalDTO rentalDTO) {
         Rental rental = convertDTOToEntity(rentalDTO);
-        rentalRepository.save(rental);
+        Rental rental1 = rentalRepository.save(rental);
+        RentalDTO dto = convertEntityToDTO(rental1);
+        return dto;
     }
 
     public void update(RentalDTO rentalDTO) {
@@ -43,10 +48,11 @@ public class RentalService {
         rentalRepository.save(rental);
     }
 
-    private RentalDTO convertEntityToDTO(Rental rental){
+    private RentalDTO convertEntityToDTO(Rental rental) {
         RentalDTO rentalDTO = new RentalDTO();
 
         rentalDTO.setId(rental.getId());
+        rentalDTO.setName(rental.getName());
         rentalDTO.setSurface(rental.getSurface());
         rentalDTO.setPrice(rental.getPrice());
         rentalDTO.setPicture(rental.getPicture());
@@ -57,10 +63,11 @@ public class RentalService {
         return rentalDTO;
     }
 
-    private Rental convertDTOToEntity(RentalDTO rentalDTO){
+    private Rental convertDTOToEntity(RentalDTO rentalDTO) {
         Rental rental = new Rental();
 
         rental.setId(rentalDTO.getId());
+        rental.setName(rentalDTO.getName());
         rental.setSurface(rentalDTO.getSurface());
         rental.setPrice(rentalDTO.getPrice());
         rental.setPicture(rentalDTO.getPicture());

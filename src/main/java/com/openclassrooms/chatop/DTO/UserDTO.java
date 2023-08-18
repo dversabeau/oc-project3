@@ -1,17 +1,21 @@
 package com.openclassrooms.chatop.DTO;
 
+import com.openclassrooms.chatop.model.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.util.Date;
+import java.util.List;
 
 public class UserDTO {
     private Long id;
     private String email;
     private String name;
     private String password;
+
+    private List<Role> roles;
     private Date createdAt;
     private Date updatedAt;
 
@@ -61,5 +65,13 @@ public class UserDTO {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

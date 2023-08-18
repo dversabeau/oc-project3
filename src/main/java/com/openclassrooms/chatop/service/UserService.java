@@ -1,6 +1,7 @@
 package com.openclassrooms.chatop.service;
 
 import com.openclassrooms.chatop.DTO.UserDTO;
+import com.openclassrooms.chatop.model.ResponseUser;
 import com.openclassrooms.chatop.model.UserInfo;
 import com.openclassrooms.chatop.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,18 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
-    public void userRegister(UserDTO userDTO){
-        UserInfo userInfo = convertDTOtoEntity(userDTO);
-        userInfoRepository.save(userInfo);
+    public ResponseUser getUser(String username) {
+        UserInfo userInfo = userInfoRepository.findByName(username);
+        ResponseUser responseUser = convertUsertoResponseUser(userInfo);
+        return responseUser;
     }
 
-    private UserInfo convertDTOtoEntity(UserDTO user){
+    public UserInfo getCurrentUser(String username) {
+        UserInfo userInfo = userInfoRepository.findByName(username);
+        return userInfo;
+    }
+
+    private UserInfo convertDTOtoEntity(UserDTO user) {
         UserInfo userInfo = new UserInfo();
 
         userInfo.setEmail(user.getEmail());
@@ -31,7 +38,7 @@ public class UserService {
         return userInfo;
     }
 
-    private UserDTO convertEntitytoDTO(UserInfo user){
+    public UserDTO convertEntitytoDTO(UserInfo user) {
         UserDTO userDTO = new UserDTO();
 
         userDTO.setEmail(user.getEmail());
@@ -40,5 +47,15 @@ public class UserService {
         userDTO.setCreatedAt(user.getCreatedAt());
         userDTO.setUpdatedAt(user.getUpdatedAt());
         return userDTO;
+    }
+
+    private ResponseUser convertUsertoResponseUser(UserInfo userInfo) {
+        ResponseUser responseUser = new ResponseUser();
+        responseUser.setId(userInfo.getId());
+        responseUser.setEmail(userInfo.getEmail());
+        responseUser.setCreated_at(userInfo.getCreatedAt());
+        responseUser.setUsername(userInfo.getName());
+        responseUser.setUpdated_at(userInfo.getUpdatedAt());
+        return responseUser;
     }
 }

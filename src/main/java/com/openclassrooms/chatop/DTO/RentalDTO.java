@@ -6,13 +6,15 @@ import java.util.Date;
 
 public class RentalDTO {
     private Long id;
+
+    private String name;
     private Integer surface;
     private Integer price;
     private String picture;
     private String description;
     private Long ownerId;
-    private Date createdAt;
-    private Date updatedAt;
+    private Date createdAt = new Date();
+    private Date updatedAt = new Date();
 
     public Long getId() {
         return id;
@@ -76,5 +78,13 @@ public class RentalDTO {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

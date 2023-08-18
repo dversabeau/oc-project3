@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -19,11 +21,24 @@ public class UserInfo implements UserDetails {
     private String email;
     private String name;
     private String password;
-    private String roles;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
     @Column(name = "created_at")
-    private Date createdAt;
+    private Date createdAt = new Date();
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private Date updatedAt = new Date();
+
+    public UserInfo() {
+    }
+
+    public UserInfo(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -43,9 +43,11 @@ public class RentalService {
         return dto;
     }
 
-    public void update(RentalDTO rentalDTO) {
+    public RentalDTO update(RentalDTO rentalDTO) {
         Rental rental = convertDTOToEntity(rentalDTO);
-        rentalRepository.save(rental);
+        Rental rental1 = rentalRepository.save(rental);
+        RentalDTO dto = convertEntityToDTO(rental1);
+        return dto;
     }
 
     private RentalDTO convertEntityToDTO(Rental rental) {

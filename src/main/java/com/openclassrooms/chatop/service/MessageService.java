@@ -29,9 +29,11 @@ public class MessageService {
         return messageDTO;
     }
 
-    public void create(MessageDTO messageDTO) {
+    public MessageDTO create(MessageDTO messageDTO) {
         Message message = convertDTOToEntity(messageDTO);
-        messageRepository.save(message);
+        Message message1 = messageRepository.save(message);
+        MessageDTO dto = convertEntityToDTO(message1);
+        return dto;
     }
 
     private MessageDTO convertEntityToDTO(Message message) {
@@ -39,8 +41,8 @@ public class MessageService {
 
         messageDTO.setId(message.getId());
         messageDTO.setMessage(message.getMessage());
-        messageDTO.setRentalId(message.getRentalId());
-        messageDTO.setUserId(message.getUserId());
+        messageDTO.setRental_id(message.getRentalId());
+        messageDTO.setUser_id(message.getUserId());
         messageDTO.setCreatedAt(message.getCreatedAt());
         messageDTO.setUpdatedAt(message.getUpdatedAt());
         return messageDTO;
@@ -51,8 +53,8 @@ public class MessageService {
 
         message.setId(messageDTO.getId());
         message.setMessage(messageDTO.getMessage());
-        message.setRentalId(messageDTO.getRentalId());
-        message.setUserId(messageDTO.getUserId());
+        message.setRentalId(messageDTO.getRental_id());
+        message.setUserId(messageDTO.getUser_id());
         message.setCreatedAt(messageDTO.getCreatedAt());
         message.setUpdatedAt(messageDTO.getUpdatedAt());
         return message;

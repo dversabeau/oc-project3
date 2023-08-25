@@ -64,8 +64,7 @@ public class RentalController {
 
     @PutMapping("/rentals/{id}")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public void update(@RequestBody RentalDTO rentalDTO) {
-
-        rentalService.update(rentalDTO);
+    public RentalDTO update(@RequestBody RentalDTO rentalDTO) {
+        return rentalService.update(rentalDTO);
     }
 }

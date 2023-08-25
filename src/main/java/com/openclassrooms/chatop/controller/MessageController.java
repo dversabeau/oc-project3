@@ -27,7 +27,7 @@ public class MessageController {
     }
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PostMapping("/messages")
-    public void create(@RequestBody MessageDTO messageDTO){
-        messageService.create(messageDTO);
+    public MessageDTO create(@RequestBody MessageDTO messageDTO){
+        return messageService.create(messageDTO);
     }
 }
